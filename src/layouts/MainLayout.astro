@@ -1,0 +1,81 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = 'A simple Astro blog site' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		
+		<!-- View Transitions API - enables smooth page transitions when navigating between pages -->
+		<ViewTransitions />
+	</head>
+	<body>
+		<!-- Header with navigation component -->
+		<Nav />
+		
+		<!-- Main content slot - page content will be inserted here -->
+		<main>
+			<slot />
+		</main>
+		
+		<!-- Footer component -->
+		<Footer />
+		
+		<!-- Script to handle color picker persistence -->
+		<script>
+			// Load saved colors from localStorage on page load
+			const savedBgColor = localStorage.getItem('bgColor');
+			const savedTextColor = localStorage.getItem('textColor');
+			if (savedBgColor) {
+				document.documentElement.style.setProperty('--bg', savedBgColor);
+			}
+			if (savedTextColor) {
+				document.documentElement.style.setProperty('--text-color', savedTextColor);
+			}
+			
+			// Listen for color picker changes (handled in Nav component)
+			document.addEventListener('astro:page-load', () => {
+				// Background color picker
+				const bgPicker = document.getElementById('bgPicker') as HTMLInputElement;
+				if (bgPicker) {
+					const currentBgColor = localStorage.getItem('bgColor') || '#ffffff';
+					bgPicker.value = currentBgColor;
+					bgPicker.addEventListener('input', (e) => {
+						const color = (e.target as HTMLInputElement).value;
+						document.documentElement.style.setProperty('--bg', color);
+						localStorage.setItem('bgColor', color);
+					});
+				}
+				
+				// Text color picker
+				const textPicker = document.getElementById('textPicker') as HTMLInputElement;
+				if (textPicker) {
+					const currentTextColor = localStorage.getItem('textColor') || '#222529';
+					textPicker.value = currentTextColor;
+					textPicker.addEventListener('input', (e) => {
+						const color = (e.target as HTMLInputElement).value;
+						document.documentElement.style.setProperty('--text-color', color);
+						localStorage.setItem('textColor', color);
+					});
+				}
+			});
+		</script>
+	</body>
+</html>
+

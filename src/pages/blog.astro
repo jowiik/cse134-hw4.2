@@ -1,0 +1,60 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout from '../layouts/MainLayout.astro';
+import PostCard from '../components/PostCard.astro';
+
+// Fetch all blog posts from the content collection
+// This demonstrates Astro's ability to render data-driven content
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Render content for each post
+const postsWithContent = await Promise.all(
+	posts.map(async (post) => {
+		const { Content } = await render(post);
+		return { post, Content };
+	})
+);
+---
+
+<MainLayout title="Blog" description="Read my latest blog posts">
+	<h1>Blog Posts</h1>
+	
+	<p class="intro">
+		Welcome to my blog! Here you'll find posts about web development, programming, and more.
+		Each post below is rendered using the <code>PostCard</code> component, demonstrating
+		Astro's component reusability.
+	</p>
+	
+	<div class="posts-container">
+		{postsWithContent.map(({ post, Content }) => (
+			<PostCard post={post} Content={Content} />
+		))}
+	</div>
+</MainLayout>
+
+<style>
+	h1 {
+		margin-bottom: 1rem;
+		border-bottom: 3px solid var(--accent);
+		padding-bottom: 0.5rem;
+	}
+	
+	.intro {
+		margin: 1.5rem 0 2rem 0;
+		color: inherit;
+		font-size: 1.1rem;
+	}
+	
+	.posts-container {
+		margin-top: 2rem;
+	}
+	
+	code {
+		background-color: rgb(var(--gray-light));
+		padding: 2px 5px;
+		/* NO border-radius */
+	}
+</style>
+

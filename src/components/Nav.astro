@@ -1,0 +1,76 @@
+---
+// Navigation component with color picker
+// This component is reused across all pages via MainLayout
+---
+
+<nav>
+	<div class="nav-container">
+		<div class="nav-links">
+			<a href="/about">About</a>
+			<a href="/blog">Blog</a>
+		</div>
+		
+		<!-- Color pickers - allows user to customize site colors -->
+		<div class="color-picker-container">
+			<label for="bgPicker">Background:</label>
+			<input type="color" id="bgPicker" />
+			<label for="textPicker">Text:</label>
+			<input type="color" id="textPicker" />
+		</div>
+	</div>
+</nav>
+
+<style>
+	nav {
+		background-color: rgb(var(--black));
+		padding: 1rem;
+		margin-bottom: 2rem;
+	}
+	
+	.nav-container {
+		max-width: 720px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+	
+	.nav-links {
+		display: flex;
+		gap: 1.5rem;
+	}
+	
+	.nav-links a {
+		color: white;
+		text-decoration: none;
+		font-weight: 700;
+		font-size: 1.1rem;
+		transition: opacity 0.2s;
+	}
+	
+	.nav-links a:hover {
+		opacity: 0.8;
+	}
+	
+	.color-picker-container {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	
+	.color-picker-container label {
+		color: white;
+		font-size: 0.9rem;
+	}
+	
+	#bgPicker, #textPicker {
+		cursor: pointer;
+		width: 40px;
+		height: 30px;
+		border: 2px solid white;
+		/* NO border-radius */
+	}
+</style>
+

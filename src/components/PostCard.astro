@@ -1,0 +1,110 @@
+---
+// PostCard component - displays a preview of a blog post
+// Reused for each blog post on the Blog page
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+	Content: any;
+}
+
+const { post, Content } = Astro.props;
+---
+
+<article class="post-card" data-expandable>
+	<div class="post-preview">
+		{post.data.heroImage && (
+			<img src={post.data.heroImage.src} alt={post.data.title} />
+		)}
+		<h3>{post.data.title}</h3>
+		<p class="post-date">
+			<FormattedDate date={post.data.pubDate} />
+		</p>
+		<p class="post-description">{post.data.description}</p>
+		<button class="expand-btn">Read More</button>
+	</div>
+	<div class="post-content" style="display: none;">
+		<Content />
+		<button class="collapse-btn">Show Less</button>
+	</div>
+</article>
+
+<script>
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll('[data-expandable]').forEach(card => {
+			const preview = card.querySelector('.post-preview');
+			const content = card.querySelector('.post-content');
+			const expandBtn = card.querySelector('.expand-btn');
+			const collapseBtn = card.querySelector('.collapse-btn');
+			
+			expandBtn?.addEventListener('click', () => {
+				preview.style.display = 'none';
+				content.style.display = 'block';
+			});
+			
+			collapseBtn?.addEventListener('click', () => {
+				content.style.display = 'none';
+				preview.style.display = 'block';
+			});
+		});
+	});
+</script>
+
+<style>
+	.post-card {
+		border: 2px solid rgb(var(--gray-light));
+		padding: 1.5rem;
+		margin-bottom: 1.5rem;
+		background: white;
+		transition: border-color 0.2s;
+		/* NO border-radius */
+	}
+	
+	.post-card:hover {
+		border-color: var(--accent);
+	}
+	
+	.post-card img {
+		width: 100%;
+		height: auto;
+		margin-bottom: 1rem;
+		/* NO border-radius */
+	}
+	
+	.post-card h3 {
+		margin: 0 0 0.5rem 0;
+		color: var(--accent);
+	}
+	
+	.post-date {
+		color: rgb(var(--gray));
+		font-size: 0.9rem;
+		margin: 0.5rem 0;
+	}
+	
+	.post-description {
+		color: inherit;
+		margin-top: 0.5rem;
+	}
+	
+	.expand-btn, .collapse-btn {
+		margin-top: 1rem;
+		padding: 0.5rem 1rem;
+		background: var(--accent);
+		color: white;
+		border: none;
+		cursor: pointer;
+		font-size: 0.9rem;
+		/* NO border-radius */
+	}
+	
+	.expand-btn:hover, .collapse-btn:hover {
+		opacity: 0.9;
+	}
+	
+	.post-content {
+		margin-top: 1rem;
+	}
+</style>
+

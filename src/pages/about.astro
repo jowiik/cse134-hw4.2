@@ -1,0 +1,64 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="About" description="About this simple Astro blog">
+	<h1>About This Site</h1>
+	
+	<section>
+		<h2>Welcome</h2>
+		<p>
+			This is a simple, clean Astro blog site built to demonstrate static site generation
+			with minimal JavaScript and modern web standards.
+		</p>
+	</section>
+	
+	<section>
+		<h2>Features</h2>
+		<ul>
+			<li>Built with <strong>Astro</strong> for optimal performance</li>
+			<li>Minimal JavaScript - only for color picker and transitions</li>
+			<li>Smooth page transitions using the View Transition API</li>
+			<li>Customizable background color</li>
+			<li>Clean, flat design with no rounded corners</li>
+			<li>Semantic HTML structure</li>
+		</ul>
+	</section>
+	
+	<section>
+		<h2>About Me</h2>
+		<p>
+			I'm a web developer passionate about creating fast, accessible, and user-friendly websites.
+			This blog serves as a platform to share my thoughts, projects, and learnings.
+		</p>
+		<p>
+			Feel free to explore the <a href="/blog">blog posts</a> to see what I've been working on!
+		</p>
+	</section>
+</MainLayout>
+
+<style>
+	h1 {
+		margin-bottom: 1.5rem;
+		border-bottom: 3px solid var(--accent);
+		padding-bottom: 0.5rem;
+	}
+	
+	section {
+		margin: 2rem 0;
+	}
+	
+	section h2 {
+		color: var(--accent);
+		margin-bottom: 1rem;
+	}
+	
+	ul {
+		list-style-position: inside;
+		line-height: 2;
+	}
+	
+	ul li {
+		margin-bottom: 0.5rem;
+	}
+</style>
